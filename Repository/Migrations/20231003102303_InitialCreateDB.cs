@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Services.Migrations
+namespace Repository.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreateDB : Migration
@@ -18,7 +18,7 @@ namespace Services.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirthh = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SocialSecurityNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     InsuranceNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -29,7 +29,8 @@ namespace Services.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<DateTime>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
