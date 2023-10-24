@@ -13,6 +13,7 @@ Services/obj
 
 # OS generated files #
 ######################
+.vs
 .DS_Store
 .DS_Store?
 
