@@ -44,14 +44,13 @@ namespace Common.Models
 		[Required]
 		public string PhoneNumber { get; set; }
 
-
-		public string DepartmentId { get; set; }
-
 		public bool IsActive { get; set; } = true;
 
 		public bool IsDeleted { get; set; } = false;
 
-		public DateTime Created { get; set; }
+        public string? DepartmentId { get; set; }
+
+        public DateTime Created { get; set; }
 
 		public DateTime Modified { get; set; }
 

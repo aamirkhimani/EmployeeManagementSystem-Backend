@@ -6,3 +6,5 @@ services:
     build:
       context: .
       dockerfile: EMS-Backend/Dockerfile
+    ports:
+       - "56072:80"

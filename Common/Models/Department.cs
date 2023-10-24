@@ -13,7 +13,7 @@ namespace Common.Models
 
 		public string RPDept { get; set; }
 
-		public virtual List<Employee> Employees { get; set; }
+		public virtual List<Employee>? Employees { get; set; }
 	}
 }
 
