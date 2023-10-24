@@ -1,0 +1,22 @@
+# Compiled source #
+###################
+bin
+obj
+Common/bin
+Common/obj
+EMS-Backend/bin
+EMS-Backend/obj
+Repository/bin
+Repository/obj
+Services/bin
+Services/obj
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# Logs #
+######################
+*.log
+
