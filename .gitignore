@@ -13,7 +13,7 @@ Services/obj
 
 # OS generated files #
 ######################
-.vs
+.vs/EMS-Backend/xs
 .DS_Store
 .DS_Store?
 
