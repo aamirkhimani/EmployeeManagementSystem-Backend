@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Common.Models
@@ -53,6 +54,9 @@ namespace Common.Models
         public DateTime Created { get; set; }
 
 		public DateTime Modified { get; set; }
+
+		[ForeignKey("DepartmentId")]
+		public virtual Department? Department { get; set; }
 
 		public Employee()
 		{

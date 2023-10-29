@@ -24,7 +24,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Common.Models.Department", b =>
                 {
-                    b.Property<string>("id")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
@@ -32,10 +32,9 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RPDept")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Departments");
                 });
@@ -108,9 +107,11 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Common.Models.Employee", b =>
                 {
-                    b.HasOne("Common.Models.Department", null)
+                    b.HasOne("Common.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Common.Models.Department", b =>

@@ -12,8 +12,8 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(EmployeeManagementSystemContext))]
-    [Migration("20231024110726_RemoveNotNullConditionfromDepartmentIdColumnInEmployeesTable")]
-    partial class RemoveNotNullConditionfromDepartmentIdColumnInEmployeesTable
+    [Migration("20231024135327_AddingForiegnKetConstraintInEmployeesTable")]
+    partial class AddingForiegnKetConstraintInEmployeesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,6 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RPDept")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -111,9 +110,11 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Common.Models.Employee", b =>
                 {
-                    b.HasOne("Common.Models.Department", null)
+                    b.HasOne("Common.Models.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Common.Models.Department", b =>

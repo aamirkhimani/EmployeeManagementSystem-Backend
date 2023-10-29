@@ -7,11 +7,11 @@ namespace Common.Models
 		{
 		}
 
-		public string id { get; set; }
+		public string Id { get; set; }
 
 		public string Name { get; set; }
 
-		public string RPDept { get; set; }
+		public string? RPDept { get; set; }
 
 		public virtual List<Employee>? Employees { get; set; }
 	}

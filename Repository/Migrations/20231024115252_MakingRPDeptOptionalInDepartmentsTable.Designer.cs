@@ -12,8 +12,8 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(EmployeeManagementSystemContext))]
-    [Migration("20231024110726_RemoveNotNullConditionfromDepartmentIdColumnInEmployeesTable")]
-    partial class RemoveNotNullConditionfromDepartmentIdColumnInEmployeesTable
+    [Migration("20231024115252_MakingRPDeptOptionalInDepartmentsTable")]
+    partial class MakingRPDeptOptionalInDepartmentsTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,6 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RPDept")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

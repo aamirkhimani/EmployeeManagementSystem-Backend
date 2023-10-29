@@ -27,7 +27,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Common.Models.Department", b =>
                 {
-                    b.Property<string>("id")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")

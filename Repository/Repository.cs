@@ -15,14 +15,14 @@ namespace Repository
 
         }
 
-		public async Task<List<T>> GetAll()
-		{
-			return await _dbSet.ToListAsync();
-		}
-
-        public async Task<T> GetById(string id)
+        public IQueryable<TEntity> getIQueryableAsNoTracking<TEntity>() where TEntity : class
         {
-            return await _dbSet.FindAsync(id);
+            return _dbContext.Set<TEntity>().AsNoTracking();
+        }
+
+        public IQueryable<TEntity> getIQueryable<TEntity>() where TEntity : class
+        {
+            return _dbContext.Set<TEntity>().AsTracking();
         }
 
         public async Task AddAsync(T entity)

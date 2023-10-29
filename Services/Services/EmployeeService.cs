@@ -1,4 +1,5 @@
 ﻿using Common.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 using Services.Interface;
 
@@ -6,18 +7,18 @@ namespace Services.Services
 {
     public class EmployeeService : IEmployeeService
 	{
-		private readonly IRepository<Employee> _employeeRepository;
+		private readonly IRepository<Employee> _repository;
 
-        public EmployeeService(IRepository<Employee> employeeRepository)
+        public EmployeeService(IRepository<Employee> repository)
 		{
-			_employeeRepository = employeeRepository;
+			_repository = repository;
         }
 
 		public async Task<List<Employee>> GetEmployees()
 		{
 			try
 			{
-				var employees = await _employeeRepository.GetAll();
+				var employees = await _repository.getIQueryableAsNoTracking<Employee>().Include(x => x.Department).ToListAsync();
 
 				return employees;
             }
@@ -31,7 +32,7 @@ namespace Services.Services
 		{
 			try
 			{
-				var employee = await _employeeRepository.GetById(id);
+				var employee = await _repository.getIQueryableAsNoTracking<Employee>().Where(x => x.Id == id).FirstOrDefaultAsync();
 
 				return employee;
 			}
@@ -45,7 +46,7 @@ namespace Services.Services
 		{
 			try
 			{
-				await _employeeRepository.AddAsync(employee);
+				await _repository.AddAsync(employee);
 				return true;
 			}
 			catch(Exception ex)
@@ -58,7 +59,7 @@ namespace Services.Services
 		{
 			try
 			{
-				await _employeeRepository.UpdateAsync(employee);
+				await _repository.UpdateAsync(employee);
 				return true;
 			}
 			catch(Exception ex)
@@ -71,7 +72,7 @@ namespace Services.Services
 		{
 			try
 			{
-				await _employeeRepository.DeleteAsync(id);
+				await _repository.DeleteAsync(id);
 				return true;
 			}
 			catch(Exception ex)
