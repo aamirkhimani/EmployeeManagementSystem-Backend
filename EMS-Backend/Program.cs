@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository;
+using Serilog;
 using Services.Interface;
 using Services.Services;
 
@@ -24,6 +25,12 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
 );
 
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration).CreateLogger();
+
+builder.Host.UseSerilog(logger);
+
+builder.Services.AddSingleton<Serilog.ILogger>(logger);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
 
 app.UseCors(policybuilder =>
 {

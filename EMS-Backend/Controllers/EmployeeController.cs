@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Common.Models;
+﻿using Common.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Services.Interface;
+using ILogger = Serilog.ILogger;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,22 +11,31 @@ namespace EMS_Backend.Controllers
     [ApiController]
     public class EmployeeController : Controller
     {
+        private readonly ILogger _logger;
         public readonly IEmployeeService _employeeService;
+        public readonly string source = nameof(EmployeeController);
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(ILogger logger, IEmployeeService employeeService)
         {
+            _logger = logger;
             _employeeService = employeeService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
+            string methodContext = $"{source}.{nameof(GetEmployees)}"; 
+
             var employeesList = await _employeeService.GetEmployees();
 
             if(!employeesList.Any())
             {
+                _logger.Warning($"{methodContext}:  No employees found!");
+
                 return NotFound();
             }
+
+            _logger.Information($"{methodContext}:  Executed.");
 
             return Ok(employeesList);
         }

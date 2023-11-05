@@ -2,28 +2,38 @@
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Services.Interface;
+using ILogger = Serilog.ILogger;
+
 
 namespace Services.Services
 {
     public class EmployeeService : IEmployeeService
 	{
-		private readonly IRepository<Employee> _repository;
+		private readonly ILogger _logger;
+        private readonly IRepository<Employee> _repository;
+        public readonly string source = nameof(EmployeeService);
 
-        public EmployeeService(IRepository<Employee> repository)
+        public EmployeeService(ILogger logger, IRepository<Employee> repository)
 		{
+			_logger = logger;
 			_repository = repository;
         }
 
 		public async Task<List<Employee>> GetEmployees()
 		{
-			try
+            string methodContext = $"{source}.{nameof(GetEmployees)}";
+
+            try
 			{
 				var employees = await _repository.getIQueryableAsNoTracking<Employee>().Include(x => x.Department).ToListAsync();
+
+				_logger.Information($"{methodContext}:	Fetched list of Employees from db: {employees?.Count}");
 
 				return employees;
             }
 			catch(Exception ex)
 			{
+				_logger.Error($"{methodContext}:	{ex.Message}");
 				throw;
 			}
 		}
