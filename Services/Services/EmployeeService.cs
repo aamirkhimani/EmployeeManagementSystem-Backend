@@ -32,7 +32,7 @@ namespace Services.Services
 		{
 			try
 			{
-				var employee = await _repository.getIQueryableAsNoTracking<Employee>().Where(x => x.Id == id).FirstOrDefaultAsync();
+				var employee = await _repository.getIQueryableAsNoTracking<Employee>().Include(i => i.Department).Where(x => x.Id == id).FirstOrDefaultAsync();
 
 				return employee;
 			}
@@ -46,7 +46,9 @@ namespace Services.Services
 		{
 			try
 			{
-				await _repository.AddAsync(employee);
+                employee.DepartmentId = employee.DepartmentId == string.Empty ? null : employee.DepartmentId;
+
+                await _repository.AddAsync(employee);
 				return true;
 			}
 			catch(Exception ex)
@@ -59,7 +61,9 @@ namespace Services.Services
 		{
 			try
 			{
-				await _repository.UpdateAsync(employee);
+				employee.DepartmentId = employee.DepartmentId == string.Empty ? null : employee.DepartmentId;
+
+                await _repository.UpdateAsync(employee);
 				return true;
 			}
 			catch(Exception ex)
