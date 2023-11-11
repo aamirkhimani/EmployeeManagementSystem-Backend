@@ -21,19 +21,19 @@ namespace Services.Services
 
 		public async Task<List<Employee>> GetEmployees()
 		{
-            string methodContext = $"{source}.{nameof(GetEmployees)}";
+            string sourceMethod = $"{source}.{nameof(GetEmployees)}";
 
             try
 			{
 				var employees = await _repository.getIQueryableAsNoTracking<Employee>().Include(x => x.Department).ToListAsync();
 
-				_logger.Information($"{methodContext}:	Fetched list of Employees from db: {employees?.Count}");
+				_logger.Information($"{sourceMethod}:	Fetched list of Employees from db: {employees?.Count}");
 
 				return employees;
             }
 			catch(Exception ex)
 			{
-				_logger.Error($"{methodContext}:	{ex.Message}");
+				_logger.Error($"{sourceMethod}:	{ex.Message}");
 				throw;
 			}
 		}

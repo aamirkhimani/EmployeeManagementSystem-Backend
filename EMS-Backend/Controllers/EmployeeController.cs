@@ -1,4 +1,5 @@
 ﻿using Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interface;
 using ILogger = Serilog.ILogger;
@@ -8,6 +9,7 @@ using ILogger = Serilog.ILogger;
 namespace EMS_Backend.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class EmployeeController : Controller
     {
