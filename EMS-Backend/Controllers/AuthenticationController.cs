@@ -22,19 +22,29 @@ namespace EMS_Backend.Controllers
 
         private readonly ILogger _logger;
         private readonly IAuthenticationService _authenticationService;
-        private readonly IValidator<LoginRequest> _validator;
+        private readonly IValidator<LoginRequest> _loginValidator;
+        private readonly IValidator<RegistrationRequest> _registrationValidator;
 
-        public AuthenticationController(IAuthenticationService authenticationService, ILogger logger, IValidator<LoginRequest> validator)
+        public AuthenticationController(IAuthenticationService authenticationService, ILogger logger, IValidator<LoginRequest> loginValidator, IValidator<RegistrationRequest> registrationValidator)
         {
             _logger = logger;
             _authenticationService = authenticationService;
-            _validator = validator;
+            _loginValidator = loginValidator;
+            _registrationValidator = registrationValidator;
         }
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequest registrationRequest)
         {
             string methodContext = $"{source}.{nameof(Register)}";
+
+            var validationResult = _registrationValidator.Validate(registrationRequest);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(errors => errors.ErrorMessage).ToList();
+                return BadRequest(errors);
+            }
 
             var result = await _authenticationService.Register(registrationRequest);
 
@@ -49,7 +59,7 @@ namespace EMS_Backend.Controllers
         {
             string methodContext = $"{source}.{nameof(Login)}";
 
-            var validationResult = _validator.Validate(loginRequest);
+            var validationResult = _loginValidator.Validate(loginRequest);
 
             if (!validationResult.IsValid)
             {
