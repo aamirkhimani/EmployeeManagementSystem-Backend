@@ -6,6 +6,7 @@ This Project is based on following:
 - .NET 7.0
 - Entity Framework Core
 - RESTful APIs
+- JWT Authentication
 - Communication with SQL Server Database
 - Docker Support
 - Database Migrations
