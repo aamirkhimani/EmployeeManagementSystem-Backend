@@ -2,6 +2,7 @@
 using Common.Models.Request;
 using Common.Models.Response;
 using Elfie.Serialization;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +22,13 @@ namespace EMS_Backend.Controllers
 
         private readonly ILogger _logger;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IValidator<LoginRequest> _validator;
 
-        public AuthenticationController(IAuthenticationService authenticationService, ILogger logger)
+        public AuthenticationController(IAuthenticationService authenticationService, ILogger logger, IValidator<LoginRequest> validator)
         {
             _logger = logger;
             _authenticationService = authenticationService;
+            _validator = validator;
         }
 
         [HttpPost("Register")]
@@ -46,9 +49,17 @@ namespace EMS_Backend.Controllers
         {
             string methodContext = $"{source}.{nameof(Login)}";
 
+            var validationResult = _validator.Validate(loginRequest);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return BadRequest(errors);
+            }
+
             var result = await _authenticationService.Login(loginRequest);
 
-            return new ObjectResult(new {Message = result.Message, data = result.Data })
+            return new ObjectResult(new { Message = result.Message, data = result.Data })
             {
                 StatusCode = Convert.ToInt32(result.StatusCode)
             };

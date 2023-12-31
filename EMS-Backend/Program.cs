@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using System.Text;
 using Common.Models;
+using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,7 @@ using Repository.Models;
 using Serilog;
 using Services.Interface;
 using Services.Services;
+using EMS_Backend.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -103,6 +106,8 @@ var logger = new LoggerConfiguration()
 builder.Host.UseSerilog(logger);
 
 builder.Services.AddSingleton<Serilog.ILogger>(logger);
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(LoginValidator));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
